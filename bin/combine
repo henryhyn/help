@@ -1,0 +1,19 @@
+#!/bin/bash
+
+input='../data'
+output='../data/note.txt'
+cd `dirname $0`
+
+echo '@@ 目录 {#CONTENTS}\n' > $output
+dirs=`ls $input | grep '^A' | sort`
+for i in $dirs
+do
+    book=`echo $i | awk -F'-' '{print $2}'`
+    echo "@ $book\n" >> $output
+    files=`ls $input/$i/zh/chap*.md`
+    for j in $files
+    do
+        cat $j >> $output
+        echo "\n\n<!-- endinput -->\n" >> $output
+    done
+done

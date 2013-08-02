@@ -1,0 +1,45 @@
+#!/usr/bin/python
+#coding=utf8
+# 帮助系统
+
+import os
+import argparse
+from hynmath import get_content,get_title
+
+# 脚本功能描述
+parser = argparse.ArgumentParser(
+    description = 'Search information for a KEYWORD',
+    epilog = 'Edit by Richard He'
+)
+
+# 定义选项
+parser.add_argument('-v', '--version',
+                   action='version', version='%(prog)s 1.0.0')
+parser.add_argument('topic', metavar='KEYWORD',
+                   help='the keyword for searching')
+parser.add_argument('-f', '--filename', default='../data/note.txt',
+                   help='the file for searching (default: %(default)s)')
+parser.add_argument('-l', '--level', type=int, choices=[1,2,3,4,5,6], default=5,
+                   help='select the level for showing depth')
+parser.add_argument('-s', '--search', action='store_true', default='False',
+                   help='search the topic for KEYWORD')
+parser.add_argument('-u', '--update', action='store_true', default='False',
+                   help='update help file')
+# 解析选项
+args = parser.parse_args()
+#print args
+
+# 获取工作路径, 以及帮助文件
+HOME = os.path.dirname(__file__)
+filename = HOME + '/' + args.filename
+
+############################################################################
+if args.update==True:
+    cmd = 'sh %s/combine' % HOME
+    os.system(cmd)
+
+# 获取搜索关键字
+if args.search==True:
+    print get_title(args.topic,filename)
+else:
+    print get_content(args.topic,filename,True,args.level+2)
