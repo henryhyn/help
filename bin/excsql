@@ -49,6 +49,7 @@ if args.execute==True:
         cursor.execute(sql)
         for data in cursor.fetchall():
             print '%s' % '\t'.join(str(i) for i in data)
+        cursor.close()
     except MySQLdb.Error, e:
         print "Error %d: %s" % (e.args[0], e.args[1])
         sys.exit (1)
