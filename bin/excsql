@@ -46,7 +46,9 @@ if args.execute==True:
     try:
         conn = MySQLdb.connect(host=args.locate, user=args.user, passwd=args.password, db=args.database, init_command='set names utf8')
         cursor = conn.cursor()
-        print cursor.execute(sql)
+        cursor.execute(sql)
+        for data in cursor.fetchall():
+            print '%s' % '\t'.join(str(i) for i in data)
     except MySQLdb.Error, e:
         print "Error %d: %s" % (e.args[0], e.args[1])
         sys.exit (1)
