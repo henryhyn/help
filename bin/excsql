@@ -1,0 +1,54 @@
+#!/usr/bin/python
+#coding=utf8
+# 帮助系统
+
+import os
+import sys
+import argparse
+import MySQLdb
+from hynmath import get_content,get_title
+
+# 脚本功能描述
+parser = argparse.ArgumentParser(
+    description = 'Search information for a KEYWORD',
+    epilog = 'Edit by Richard He'
+)
+
+# 定义选项
+parser.add_argument('-v', '--version',
+                   action='version', version='%(prog)s 1.0.0')
+parser.add_argument('topic', metavar='KEYWORD',
+                   help='the keyword for searching')
+parser.add_argument('-f', '--filename', default='../data/sql.md',
+                   help='the file for searching (default: %(default)s)')
+parser.add_argument('-u', '--user', default='root',
+                   help='user (default: %(default)s)')
+parser.add_argument('-p', '--password', default='mysql',
+                   help='password (default: %(default)s)')
+parser.add_argument('-l', '--locate', default='127.0.0.1',
+                   help='host (default: %(default)s)')
+parser.add_argument('-d', '--database', default='recommendationengine',
+                   help='database (default: %(default)s)')
+parser.add_argument('-e', '--execute', action='store_true', default='False',
+                   help='execute KEYWORD')
+# 解析选项
+args = parser.parse_args()
+#print args
+
+# 获取工作路径, 以及帮助文件
+HOME = os.path.dirname(__file__)
+filename = HOME + '/' + args.filename
+
+############################################################################
+sql = get_content(args.topic,filename,False,7)
+
+if args.execute==True:
+    try:
+        conn = MySQLdb.connect(host=args.locate, user=args.user, passwd=args.password, db=args.database, init_command='set names utf8')
+        cursor = conn.cursor()
+        print cursor.execute(sql)
+    except MySQLdb.Error, e:
+        print "Error %d: %s" % (e.args[0], e.args[1])
+        sys.exit (1)
+else:
+    print sql
