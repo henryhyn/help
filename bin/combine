@@ -5,12 +5,12 @@ output='../data/note.txt'
 cd `dirname $0`
 
 echo '@@ 目录 {#CONTENTS}\n' > $output
-dirs=`ls $input | grep '^Z' | sort`
+dirs=`ls $input | grep '^S' | sort`
 for i in $dirs
 do
     book=`echo $i | awk -F'-' '{print $2}'`
     echo "@ $book\n" >> $output
-    files=`ls $input/$i/zh/*.md`
+    files=`ls $input/$i/src/*.md`
     for j in $files
     do
         perl -pe 's/^(#+.*)\r?\n/$1 => $ARGV\n/g' $j >> $output
