@@ -19,7 +19,7 @@ parser.add_argument('topic', metavar='KEYWORD',
                    help='the keyword for searching')
 parser.add_argument('-f', '--filename', default='../data/note.txt',
                    help='the file for searching (default: %(default)s)')
-parser.add_argument('-l', '--level', type=int, choices=[0,1,2,3,4,5,6], default=5,
+parser.add_argument('-l', '--level', type=int, choices=[0,1,2,3,4,5,6], default=6,
                    help='select the level for showing depth')
 parser.add_argument('-s', '--search', action='store_true', default='False',
                    help='search the topic for KEYWORD')

@@ -5,7 +5,7 @@ output='../data/note.txt'
 cd `dirname $0`
 
 echo '@@ 目录 {#CONTENTS}\n' > $output
-dirs=`ls $input | grep '^S' | sort`
+dirs=`ls $input | grep '^[A-Z][0-9][0-9]-' | sort`
 for i in $dirs
 do
     book=`echo $i | awk -F'-' '{print $2}'`
