@@ -1,16 +1,18 @@
 #!/bin/bash
-
-input='../data'
+cd /Users/henry/workspace_enthusa/gino/fragment
+git pull
+cd -
+input='/Users/henry/workspace_enthusa/gino/fragment'
 output='../data/note.txt'
 cd `dirname $0`
 
 echo '@@ 目录 {#CONTENTS}\n' > $output
-dirs=`ls $input | grep '^[A-Z][0-9][0-9]-' | sort`
+dirs=`ls $input | grep '^[a-z]' | sort`
 for i in $dirs
 do
     book=`echo $i | awk -F'-' '{print $2}'`
     echo "@ $book\n" >> $output
-    files=`ls $input/$i/src/*.md`
+    files=`ls $input/$i/*.md`
     for j in $files
     do
         perl -pe 's/^(#+.*)\r?\n/$1 => $ARGV\n/g' $j >> $output
